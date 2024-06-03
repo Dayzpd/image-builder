@@ -14,11 +14,18 @@
         {
           "disk_size": "{{user `disk_size`}}",
           "storage_pool": "{{user `storage_pool`}}",
-          "storage_pool_type": "{{user `storage_pool_type`}}",
           "type": "scsi"
         }
       ],
-      "http_directory": "{{user `http_directory`}}",
+      "additional_iso_files": {
+        "cd_files": [
+          "{{user `http_directory`}}/meta-data",
+          "{{user `http_directory`}}/user-data"
+        ],
+        "cd_label": "cidata",
+        "iso_storage_pool": "{{user `iso_storage_pool`}}",
+        "unmount": "{{user `unmount_iso`}}"
+      },
       "insecure_skip_tls_verify": true,
       "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
       "iso_storage_pool": "{{user `iso_storage_pool`}}",
@@ -71,6 +78,7 @@
         "KUBEVIRT={{user `kubevirt`}}"
       ],
       "extra_arguments": [
+        "-vvvv",
         "--extra-vars",
         "{{user `ansible_common_vars`}}",
         "--extra-vars",
@@ -98,6 +106,7 @@
         "KUBEVIRT={{user `kubevirt`}}"
       ],
       "extra_arguments": [
+        "-vvvv",
         "--extra-vars",
         "{{user `ansible_common_vars`}}",
         "--extra-vars",
@@ -159,7 +168,7 @@
     "crictl_version": null,
     "disk_size": "20G",
     "existing_ansible_ssh_args": "{{env `ANSIBLE_SSH_ARGS`}}",
-    "http_directory": "./packer/proxmox/linux/{{user `distro_name`}}/http/",
+    "http_directory": "./packer/proxmox/linux/{{user `distro_name`}}/http/{{user `version`}}",
     "iso_storage_pool": "{{env `PROXMOX_ISO_POOL`}}",
     "kubernetes_cni_deb_version": null,
     "kubernetes_cni_http_source": null,
@@ -186,9 +195,8 @@
     "ssh_password": "builder",
     "ssh_username": "builder",
     "storage_pool": "{{env `PROXMOX_STORAGE_POOL`}}",
-    "storage_pool_type": "lvm",
     "token": "{{env `PROXMOX_TOKEN`}}",
     "username": "{{env `PROXMOX_USERNAME`}}",
-    "vmid": ""
+    "vmid": "{{env `PROXMOX_VMID`}}"
   }
 }

@@ -374,7 +374,7 @@ NUTANIX_BUILD_NAMES ?= nutanix-ubuntu-2004 nutanix-ubuntu-2204 nutanix-ubuntu-24
 
 HCLOUD_BUILD_NAMES ?= hcloud-ubuntu-2004 hcloud-ubuntu-2204 hcloud-centos-7 hcloud-rockylinux-8 hcloud-rockylinux-9 hcloud-flatcar
 
-PROXMOX_BUILD_NAMES 		?= proxmox-ubuntu-2204
+PROXMOX_BUILD_NAMES 		?= proxmox-ubuntu-2204 proxmox-ubuntu-2404
 
 ## --------------------------------------
 ## Dynamic build targets
@@ -822,6 +822,7 @@ build-hcloud-flatcar: ## Builds the Hetzner Cloud Flatcar image
 build-hcloud-all: $(HCLOUD_BUILD_TARGETS) ## Builds all Hetzner Cloud image
 
 build-proxmox-ubuntu-2204: ## Builds the Proxmox ubuntu-2204 image
+build-proxmox-ubuntu-2404: ## Builds the Proxmox ubuntu-2404 image
 
 ## --------------------------------------
 ## Document dynamic validate targets
@@ -985,6 +986,8 @@ validate-hcloud-flatcar: ## Validates the Hetzner Cloud Flatcar Packer config
 validate-hcloud-all: $(HCLOUD_VALIDATE_TARGETS) ## Validates all Hetzner Cloud Packer config
 
 validate-proxmox-ubuntu-2204: ## Validates Ubuntu 22.04 Proxmox Packer config
+validate-proxmox-ubuntu-2404: ## Validates Ubuntu 24.04 Proxmox Packer config
+
 
 validate-all: validate-ami-all \
 	validate-azure-all \
