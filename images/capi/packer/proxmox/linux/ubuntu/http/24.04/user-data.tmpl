@@ -4,6 +4,7 @@ autoinstall:
   # Disable ssh server during installation, otherwise packer tries to connect and exceed max attempts
   early-commands:
     - systemctl stop ssh
+    - ping -c 4 google.com || echo "Network not reachable"
   # Configure the locale
   locale: en_US.UTF-8
   keyboard:
@@ -13,10 +14,6 @@ autoinstall:
     allow-pw: true
   packages:
     - qemu-guest-agent
-  apt:
-    mirror-selection:
-      primary:
-          - uri: http://archive.ubuntu.com/ubuntu
   # Create a single-partition with no swap space. Kubernetes
   # really dislikes the idea of anyone else managing memory.
   # For more information on how partitioning is configured,
