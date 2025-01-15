@@ -14,6 +14,13 @@ autoinstall:
     allow-pw: true
   packages:
     - qemu-guest-agent
+    - cifs-utils
+    - nfs-common
+    - open-iscsi
+    - lsscsi
+    - sg3-utils
+    - multipath-tools
+    - scsitools
   # Create a single-partition with no swap space. Kubernetes
   # really dislikes the idea of anyone else managing memory.
   # For more information on how partitioning is configured,
@@ -70,3 +77,16 @@ autoinstall:
     - sed -ri '/\sswap\s/s/^#?/#/' /etc/fstab
     - apt-get purge --auto-remove -y
     - rm -rf /var/lib/apt/lists/*
+    - |
+        sudo tee /etc/multipath.conf <<-'EOF'
+        defaults {
+            user_friendly_names yes
+            find_multipaths yes
+        }
+        EOF
+    - sudo systemctl enable multipath-tools.service
+    - sudo systemctl restart multipath-tools.service
+    - sudo systemctl status multipath-tools.service || true
+    - sudo systemctl enable open-iscsi.service
+    - sudo systemctl start open-iscsi.service
+    - sudo systemctl status open-iscsi.service || true
